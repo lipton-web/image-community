@@ -1,46 +1,44 @@
 import React from "react";
-import Post from "../components/Post"
+import Post from "../components/Post";
 import CommentList from "../components/CommentList";
 import CommentWrite from "../components/CommentWrite";
 
-import Permit from '../shared/Permit'
+import Permit from "../shared/Permit";
 
 import { useDispatch, useSelector } from "react-redux";
+
 import { actionCreators as postActions } from "../redux/modules/post";
 
 const PostDetail = (props) => {
-	const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const id = props.match.params.id;
 
-	// id가져오기
-	const id = props.match.params.id;
-	const user_info = useSelector((state) => state.user.user);
+  const user_info = useSelector((state) => state.user.user);
 
-	const post_list = useSelector(store => store.post.list);
-	const post_idx = post_list.findIndex(p => p.id === id); //인덱스 번호 찾기
-	const post = post_list[post_idx];
+  const post_list = useSelector((store) => store.post.list);
 
+  const post_idx = post_list.findIndex((p) => p.id === id);
+  const post = post_list[post_idx];
 
+  React.useEffect(() => {
+    if (post) {
+      return;
+    }
 
-	//파이어스토어에서 post가져오기
-	React.useEffect(() => {
+    dispatch(postActions.getOnePostFB(id));
+  }, []);
 
-		if(post){
-				return; 
-		}
-
-		dispatch(postActions.getOnePostFB(id));
-
-	}, []);
-
-	return (
-		<React.Fragment>
-			{post && <Post {...post} is_me={post.user_info.user_id === user_info?.uid} />} 
-			<Permit>
-				<CommentWrite post_id={id} />
-			</Permit>
-			<CommentList post_id={id} />
-		</React.Fragment>
-	)
-}
+  return (
+    <React.Fragment>
+      {post && (
+        <Post {...post} is_me={post.user_info.user_id === user_info?.uid} />
+      )}
+      <Permit>
+        <CommentWrite post_id={id} />
+      </Permit>
+      <CommentList post_id={id} />
+    </React.Fragment>
+  );
+};
 
 export default PostDetail;
