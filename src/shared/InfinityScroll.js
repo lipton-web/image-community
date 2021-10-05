@@ -1,5 +1,6 @@
 import React from "react";
 import _ from 'lodash';
+import { Spinner } from "../elements";
 
 const InfinityScroll = (props) => {
 
@@ -14,9 +15,14 @@ const InfinityScroll = (props) => {
 		const {innerHeight} = window;
 		const {scrollHeight} = document.body;
 
-		// const scrollTop = 
+		// document.documentElement 있으면 scrollTop 가져오기, 아니면 document.body.scrollTop 가져오기(이렇게 해야 모든 브라우저 지원)
+		// 크롬만 생각하면 document.body.scrollTop 만 적어주면 된다.
+		const scrollTop = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
 
-		callNext(); //다음 리스트 실행
+		//200보다 scrollHeight 높이가 작아지면
+		if(scrollHeight - innerHeight - scrollTop < 200) {
+			callNext(); //다음 리스트 실행
+		}
 	}, 300);
 
 	const handleScroll = React.useCallback(_handleScroll, [loading]);
@@ -39,6 +45,7 @@ const InfinityScroll = (props) => {
 	return (
 		<React.Fragment>
 			{props.children}
+			{is_next && (<Spinner/>)}
 		</React.Fragment>
 	)
 }

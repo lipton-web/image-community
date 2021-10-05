@@ -2,14 +2,15 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import "firebase/firestore"
 import "firebase/storage";
+import "firebase/database";
 
-import dotenv from 'dotenv'
-dotenv.config()
+// import dotenv from 'dotenv'
+// dotenv.config()
 
 // import firebase from 'firebase/compat/app';
 // import 'firebase/compat/auth';
 
-require('dotenv').config()
+// require('dotenv').config()
 
 const firebaseConfig = {
 	apiKey: process.env.REACT_APP_apiKey,
@@ -28,5 +29,6 @@ const apiKey = firebaseConfig.apiKey;
 const auth = firebase.auth(); //인증만들기
 const firestore = firebase.firestore();
 const storage = firebase.storage()
+const realtime = firebase.database();
 
-export {auth, apiKey, firestore, storage};
+export {auth, apiKey, firestore, storage, realtime};
