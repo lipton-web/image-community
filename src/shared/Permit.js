@@ -3,17 +3,17 @@ import { useSelector } from "react-redux";
 import { apiKey } from "./firebase";
 
 const Permit = (props) => {
-	const is_login = useSelector(state => state.user.is_login);
+  const is_login = useSelector((state) => state.user.is_login);
 
-	const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
-	const is_session = sessionStorage.getItem(_session_key) ? true : false;
+  const _session_key = `firebase:authUser:${apiKey}:[DEFAULT]`;
 
-	if (is_session && is_login) {
-		return <React.Fragment>{props.children}</React.Fragment>
-	}
+  const is_session = sessionStorage.getItem(_session_key) ? true : false;
 
-	return null;
-
-}
+  if (is_session && is_login) {
+    return <React.Fragment>{props.children}</React.Fragment>;
+  }
+  
+  return null;
+};
 
 export default Permit;

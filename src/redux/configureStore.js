@@ -6,17 +6,19 @@ import { connectRouter } from "connected-react-router";
 import User from "./modules/user";
 import Post from "./modules/post";
 import Image from "./modules/image";
+import Comment from "./modules/comment";
 
-export const history = createBrowserHistory(); 
+export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
   user: User,
   post: Post,
   image: Image,
-	router: connectRouter(history),
+  comment: Comment,
+  router: connectRouter(history),
 });
 
-const middlewares = [thunk.withExtraArgument({history:history})]; //액션 생성하기 전 단계에서 히스토리 사용 가능
+const middlewares = [thunk.withExtraArgument({ history: history })];
 
 // 지금이 어느 환경인 지 알려줘요. (개발환경, 프로덕션(배포)환경 ...)
 const env = process.env.NODE_ENV;
@@ -27,8 +29,6 @@ if (env === "development") {
   middlewares.push(logger);
 }
 
-
-//Redux DevTools
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
@@ -36,13 +36,8 @@ const composeEnhancers =
       })
     : compose;
 
+const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
-// 미들웨어 묶기
-const enhancer = composeEnhancers(
-	applyMiddleware(...middlewares)
-);
-
-// 스토어 만들기
 let store = (initialStore) => createStore(rootReducer, enhancer);
 
 export default store();
