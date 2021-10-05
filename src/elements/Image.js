@@ -32,24 +32,21 @@ const Image = (props) => {
 
 Image.defaultProps = {
   shape: "circle",
-  src: "https://filminvalle.com/wp-content/uploads/2019/10/User-Icon.png",
+  src: "https://mean0images.s3.ap-northeast-2.amazonaws.com/4.jpeg",
   size: 36,
 };
 
 const ImageDefault = styled.div`
-    --size: ${(props) => props.size}px;
-    width: var(--size);
-    height: var(--size);
-
-	background-position: center;
-    background-image: url("${(props) => props.src}");
-    background-size: cover;
+  --size: ${(props) => props.size}px;
+  width: var(--size);
+  height: var(--size);
+  background-image: url("${(props) => props.src}");
+  background-size: cover;
 `;
 
 const AspectOutter = styled.div`
     width: 100%;
     min-width: 250px;
-
 `;
 
 const AspectInner = styled.div`
@@ -58,7 +55,6 @@ const AspectInner = styled.div`
     overflow: hidden;
     background-image: url("${(props) => props.src}");
     background-size: cover;
-    background-position: center;
 `;
 
 const ImageCircle = styled.div`
@@ -67,7 +63,6 @@ const ImageCircle = styled.div`
     height: var(--size);
     border-radius: var(--size);
 
-	background-position: center;
     background-image: url("${(props) => props.src}");
     background-size: cover;
     margin: 4px;
